@@ -74,6 +74,8 @@ namespace Mesajlasma
 
         private void dgvGiden_DoubleClick(object sender, EventArgs e)
         {
+            if (dgvGiden.SelectedRows.Count >0)
+            {
             int secilen = dgvGelen.SelectedRows[0].Index;
             string gonderen=dgvGelen.SelectedRows[0].Cells[0].Value.ToString();
             string baslik=dgvGelen.SelectedRows[0].Cells[1].Value.ToString();
@@ -81,17 +83,21 @@ namespace Mesajlasma
             string alici = lblAdSoyad.Text;
             MesajDetay frm = new MesajDetay(alici,baslik,mesaj,gonderen);
             frm.Show();
+            }
         }
 
         private void dgvGiden_DoubleClick_1(object sender, EventArgs e)
         {
-            int secilen = dgvGelen.SelectedRows[0].Index;
-            string alici = dgvGelen.SelectedRows[0].Cells[0].Value.ToString();
-            string baslik = dgvGelen.SelectedRows[0].Cells[1].Value.ToString();
-            string mesaj = dgvGelen.SelectedRows[0].Cells[2].Value.ToString();
+            if (dgvGelen.SelectedRows.Count >0)
+            {
+            int secilen = dgvGiden.SelectedRows[0].Index;
+            string alici = dgvGiden.SelectedRows[0].Cells[0].Value.ToString();
+            string baslik = dgvGiden.SelectedRows[0].Cells[1].Value.ToString();
+            string mesaj = dgvGiden.SelectedRows[0].Cells[2].Value.ToString();
             string gonderen = lblAdSoyad.Text;
             MesajDetay frm = new MesajDetay(alici, baslik, mesaj, gonderen);
             frm.Show();
+            }
         }
 
         private void şifreDeğiştirToolStripMenuItem_Click(object sender, EventArgs e)

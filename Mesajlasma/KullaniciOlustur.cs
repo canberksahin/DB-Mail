@@ -22,11 +22,26 @@ namespace Mesajlasma
         SqlConnection con = new SqlConnection(@"Data Source=.;Initial Catalog=DbMesajlasma;Integrated Security=True");
         private void btnOlustur_Click(object sender, EventArgs e)
         {
+            con.Open();
+            bool kullanılıyorMu = false;
+            SqlCommand cmd1 = new SqlCommand("select Numara from tblKisiler", con);
+            SqlDataReader dr = cmd1.ExecuteReader();
+            while (dr.Read())
+            {
+                if (mtxtNumara.Text == dr[0].ToString())
+                {
+                    MessageBox.Show("Bu Numara Kullanılıyor,lütfen yeni bir Numara seçin.");
+                    mtxtNumara.Clear();
+                    kullanılıyorMu = true;
+                    break;
+                }
+            }
+            con.Close();
             if (txtSifre.Text.Length > 7)
             {
                 MessageBox.Show("Şifre en fazla 7 haneli olabilir.");
             }
-            else
+            else if (!kullanılıyorMu)
             {
                 con.Open();
                 SqlCommand cmd = new SqlCommand("insert into tblKisiler (Ad,Soyad,Numara,Sifre) values(@p1,@p2,@p3,@p4)", con);
@@ -35,13 +50,16 @@ namespace Mesajlasma
                 cmd.Parameters.AddWithValue("@p3", mtxtNumara.Text);
                 cmd.Parameters.AddWithValue("@p4", txtSifre.Text);
                 cmd.ExecuteNonQuery();
-                MessageBox.Show("Kullanıcı başarıyla oluşturulmuştur.","Bilgi",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                MessageBox.Show("Kullanıcı başarıyla oluşturulmuştur.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtAd.Clear();
                 txtSifre.Clear();
                 txtSoyad.Clear();
                 mtxtNumara.Clear();
                 con.Close();
             }
+
+
+
         }
     }
 }
